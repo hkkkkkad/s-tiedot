@@ -49,6 +49,7 @@ async function updateWeather() {
         humidityEl.textContent = "--";
 
     }
+
 }
 
 
@@ -56,13 +57,20 @@ function updateClock() {
 
     const now = new Date();
 
-    const time = now.toLocaleTimeString("en-US", {
+    clockEl.textContent = now.toLocaleTimeString("en-US", {
         timeZone: timezone,
         hour: "2-digit",
         minute: "2-digit",
         hour12: !CLOCK24
     });
 
+}
+
+
+updateWeather();
+
+setInterval(updateWeather, 600000);
+setInterval(updateClock, 1000);
     clockEl.textContent = time;
 
 }
