@@ -1,21 +1,13 @@
-// Weather Overlay v1.0
-// Default location: Todd Mission, Texas
-
-// ===========================
-// CONFIG
-// ===========================
+// Weather Overlay v2.0
 
 const API_KEY = "b396157fb7ec3fc7b8b710264ea30d09";
-
 const CITY = "Todd Mission,US";
-
 const UNITS = "imperial";
-
 const CLOCK24 = false;
 
 const cityEl = document.getElementById("city");
-const tempEl=document.getElementById("temp");
-const descEl = document.getElementById("description");
+const tempEl = document.getElementById("temp");
+const humidityEl = document.getElementById("humidity");
 const iconEl = document.getElementById("weather-icon");
 const clockEl = document.getElementById("clock");
 
@@ -27,13 +19,9 @@ function toF(c) {
     return Math.round((c * 9 / 5) + 32);
 }
 
-function capitalize(text) {
-    return text.replace(/\b\w/g, c => c.toUpperCase());
-}
+let timezoneOffset = 0;
 
 async function updateWeather() {
-
-    if (!API_KEY) return;
 
     try {
 
@@ -41,68 +29,41 @@ async function updateWeather() {
             `https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(CITY)}&appid=${API_KEY}&units=${UNITS}`
         );
 
+        if (!response.ok) {
+            throw new Error("OpenWeather error");
+        }
+
         const data = await response.json();
 
         let tempF;
         let tempC;
-        let feelsF;
-        let feelsC;
 
         if (UNITS === "metric") {
-
             tempC = Math.round(data.main.temp);
             tempF = toF(tempC);
-
-            feelsC = Math.round(data.main.feels_like);
-            feelsF = toF(feelsC);
-
         } else {
-
             tempF = Math.round(data.main.temp);
             tempC = toC(tempF);
-
-            feelsF = Math.round(data.main.feels_like);
-            feelsC = toC(feelsF);
-
         }
 
-        cityEl.textContent=data.name;
-        descEl.textContent = capitalize(data.weather[0].description);
+        timezoneOffset = data.timezone;
 
-        tempEl.textContent=`${tempF}°F (${tempC}°C)`;
+        cityEl.textContent = data.name;
+        tempEl.textContent = `${tempF}°F (${tempC}°C)`;
+        humidityEl.textContent = `💧 ${data.main.humidity}%`;
 
-        feelsEl.textContent =
-            `🥵 Feels: ${feelsF}°F (${feelsC}°C)`;
+        iconEl.src = `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`;
+        iconEl.alt = data.weather[0].description;
 
-        humidityEl.textContent=`💧 ${data.main.humidity}%`;
-
-        if (UNITS === "metric") {
-
-            windEl.textContent =
-                `💨 Wind: ${Math.round(data.wind.speed)} km/h`;
-
-        } else {
-
-            windEl.textContent =
-                `💨 Wind: ${Math.round(data.wind.speed)} mph`;
-
-        }
-
-        pressureEl.textContent =
-            `🌡 Pressure: ${data.main.pressure} hPa`;
-
-        visibilityEl.textContent =
-            `👁 Visibility: ${(data.visibility / 1000).toFixed(1)} km`;
-
-        iconEl.src =
-            `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`;
+        updateClock();
 
     } catch (err) {
 
         console.error(err);
 
         cityEl.textContent = "Weather Error";
-        descEl.textContent = "Unable to fetch weather.";
+        tempEl.textContent = "--";
+        humidityEl.textContent = "--";
 
     }
 
@@ -110,9 +71,10 @@ async function updateWeather() {
 
 function updateClock() {
 
-    const now = new Date();
+    const utc = Date.now() + new Date().getTimezoneOffset() * 60000;
+    const cityTime = new Date(utc + timezoneOffset * 1000);
 
-    clockEl.textContent = now.toLocaleTimeString([], {
+    clockEl.textContent = cityTime.toLocaleTimeString("en-US", {
         hour: "2-digit",
         minute: "2-digit",
         hour12: !CLOCK24
@@ -121,7 +83,6 @@ function updateClock() {
 }
 
 updateWeather();
-updateClock();
 
 setInterval(updateWeather, 60000);
 setInterval(updateClock, 1000);
