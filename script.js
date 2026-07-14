@@ -1,6 +1,6 @@
 // Weather Overlay v2.0
 
-const API_KEY = "b396157fb7ec3fc7b8b710264ea30d09";
+const API_KEY = "b391b385224b472083e205426261407";
 const CITY = "Todd Mission,US";
 const UNITS = "imperial";
 const CLOCK24 = false;
