@@ -1,12 +1,17 @@
 // Weather Overlay v1.0
 // Default location: Todd Mission, Texas
 
-const params = new URLSearchParams(window.location.search);
+// ===========================
+// CONFIG
+// ===========================
 
-const API_KEY = params.get("apikey") || "";
-const CITY = params.get("city") || "Todd Mission,US";
-const UNITS = (params.get("units") || "imperial").toLowerCase();
-const CLOCK24 = params.get("clock") === "24";
+const API_KEY = "b396157fb7ec3fc7b8b710264ea30d09";
+
+const CITY = "Todd Mission,US";
+
+const UNITS = "imperial";
+
+const CLOCK24 = false;
 
 const cityEl = document.getElementById("city");
 const descEl = document.getElementById("description");
@@ -19,11 +24,6 @@ const pressureEl = document.getElementById("pressure");
 const visibilityEl = document.getElementById("visibility");
 const iconEl = document.getElementById("weather-icon");
 const clockEl = document.getElementById("clock");
-
-if (!API_KEY) {
-    cityEl.textContent = "Missing API Key";
-    descEl.textContent = "Use ?apikey=YOUR_KEY";
-}
 
 function toC(f) {
     return Math.round((f - 32) * 5 / 9);
