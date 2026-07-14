@@ -19,11 +19,10 @@ async function updateWeather() {
         );
 
         if (!response.ok) {
-            throw new Error("WeatherAPI error");
+            throw new Error(`WeatherAPI error: ${response.status}`);
         }
 
         const data = await response.json();
-
         console.log(data);
 
         const tempC = Math.round(data.current.temp_c);
@@ -44,11 +43,10 @@ async function updateWeather() {
         console.error(err);
 
         cityEl.textContent = "Weather Error";
-        tempEl.textContent = "--";
-        humidityEl.textContent = "--";
+        tempEl.textContent = "--°F (--°C)";
+        humidityEl.textContent = "💧 --";
     }
 }
-
 
 function updateClock() {
     const now = new Date();
@@ -61,50 +59,7 @@ function updateClock() {
     });
 }
 
-
 updateWeather();
 
-setInterval(updateWeather, 600000);
-setInterval(updateClock, 1000);    });
-
-}
-
-
-updateWeather();
-
-setInterval(updateWeather, 600000);
-setInterval(updateClock, 1000);
-    clockEl.textContent = time;
-
-}
-
-
-updateWeather();
-
-setInterval(updateWeather, 600000); // 10 min välein
-setInterval(updateClock, 1000);     // kello joka sekunti
-        cityEl.textContent = "Weather Error";
-        tempEl.textContent = "--";
-        humidityEl.textContent = "--";
-
-    }
-
-}
-
-function updateClock() {
-
-    const utc = Date.now() + new Date().getTimezoneOffset() * 60000;
-    const cityTime = new Date(utc + timezoneOffset * 1000);
-
-    clockEl.textContent = cityTime.toLocaleTimeString("en-US", {
-        hour: "2-digit",
-        minute: "2-digit",
-        hour12: !CLOCK24
-    });
-
-}
-
-updateWeather();
-
-setInterval(updateWeather, 60000);
-setInterval(updateClock, 1000);
+setInterval(updateWeather, 600000); // 10 min
+setInterval(updateClock, 1000);     // 1 s
