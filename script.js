@@ -1,6 +1,6 @@
 // Weather Overlay v3.0 - WeatherAPI
 
-const API_KEY = "b391157fb7ec3fc7b8b710264261407";
+const API_KEY = "7dfe57acf4304061b8b212515261407";
 const CITY = "Todd Mission, Texas, US";
 const CLOCK24 = false;
 
@@ -15,7 +15,7 @@ let timezone = "America/Chicago";
 async function updateWeather() {
     try {
         const response = await fetch(
-            `https://api.weatherapi.com/v1/current.json?key=${API_KEY}&q=${encodeURIComponent(CITY)}&aqi=no`
+            `https://api.weatherapi.com/v1/current.json?key=${7dfe57acf4304061b8b212515261407}&q=${encodeURIComponent(CITY)}&aqi=no`
         );
 
         if (!response.ok) {
