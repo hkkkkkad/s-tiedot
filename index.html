@@ -1,87 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Weather Overlay</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Weather Overlay</title>
 
-    <link rel="stylesheet" href="style.css">
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@600;700&display=swap" rel="stylesheet">
 </head>
 
 <body>
 
 <div id="overlay">
 
-    <div id="weather-card">
+    <img id="weather-icon">
 
-        <div class="top">
+    <span id="city">Loading...</span>
 
-            <img id="weather-icon" alt="Weather Icon">
+    <span id="temp">
+        --°F (--°C)
+    </span>
 
-            <div class="weather-info">
+    <span id="humidity">
+        💧 --
+    </span>
 
-                <div id="city">
-                    Loading...
-                </div>
-
-                <div id="description">
-                    Weather
-                </div>
-
-            </div>
-
-        </div>
-
-        <div class="temperature">
-
-            <span id="temp-f">
-                --
-            </span>
-
-            <span class="divider">
-                /
-            </span>
-
-            <span id="temp-c">
-                --
-            </span>
-
-        </div>
-
-        <div class="details">
-
-            <div class="detail" id="feels-like">
-                🥵 Feels: --
-            </div>
-
-            <div class="detail" id="humidity">
-                💧 Humidity: --
-            </div>
-
-            <div class="detail" id="wind">
-                💨 Wind: --
-            </div>
-
-            <div class="detail" id="pressure">
-                🌡 Pressure: --
-            </div>
-
-            <div class="detail" id="visibility">
-                👁 Visibility: --
-            </div>
-
-        </div>
-
-        <div id="clock">
-            --:--
-        </div>
-
-    </div>
+    <span id="clock">
+        --:--
+    </span>
 
 </div>
 
