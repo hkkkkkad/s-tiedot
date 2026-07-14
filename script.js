@@ -14,14 +14,8 @@ const UNITS = "imperial";
 const CLOCK24 = false;
 
 const cityEl = document.getElementById("city");
+const tempEl=document.getElementById("temp");
 const descEl = document.getElementById("description");
-const tempFEl = document.getElementById("temp-f");
-const tempCEl = document.getElementById("temp-c");
-const feelsEl = document.getElementById("feels-like");
-const humidityEl = document.getElementById("humidity");
-const windEl = document.getElementById("wind");
-const pressureEl = document.getElementById("pressure");
-const visibilityEl = document.getElementById("visibility");
 const iconEl = document.getElementById("weather-icon");
 const clockEl = document.getElementById("clock");
 
@@ -72,17 +66,15 @@ async function updateWeather() {
 
         }
 
-        cityEl.textContent = `${data.name}, ${data.sys.country}`;
+        cityEl.textContent=data.name;
         descEl.textContent = capitalize(data.weather[0].description);
 
-        tempFEl.textContent = `${tempF}°F`;
-        tempCEl.textContent = `${tempC}°C`;
+        tempEl.textContent=`${tempF}°F (${tempC}°C)`;
 
         feelsEl.textContent =
             `🥵 Feels: ${feelsF}°F (${feelsC}°C)`;
 
-        humidityEl.textContent =
-            `💧 Humidity: ${data.main.humidity}%`;
+        humidityEl.textContent=`💧 ${data.main.humidity}%`;
 
         if (UNITS === "metric") {
 
