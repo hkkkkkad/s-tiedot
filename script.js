@@ -1,8 +1,7 @@
-// Weather Overlay v2.0
+// Weather Overlay v3.0 - WeatherAPI
 
 const API_KEY = "b391b385224b472083e205426261407";
-const CITY = "Todd Mission,US";
-const UNITS = "imperial";
+const CITY = "Todd Mission, Texas, US";
 const CLOCK24 = false;
 
 const cityEl = document.getElementById("city");
@@ -11,49 +10,33 @@ const humidityEl = document.getElementById("humidity");
 const iconEl = document.getElementById("weather-icon");
 const clockEl = document.getElementById("clock");
 
-function toC(f) {
-    return Math.round((f - 32) * 5 / 9);
-}
-
-function toF(c) {
-    return Math.round((c * 9 / 5) + 32);
-}
-
-let timezoneOffset = 0;
+let timezone = "America/Chicago";
 
 async function updateWeather() {
 
     try {
 
         const response = await fetch(
-            `https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(CITY)}&appid=${API_KEY}&units=${UNITS}`
+            `https://api.weatherapi.com/v1/current.json?key=${API_KEY}&q=${encodeURIComponent(CITY)}&aqi=no`
         );
 
         if (!response.ok) {
-            throw new Error("OpenWeather error");
+            throw new Error("WeatherAPI error");
         }
 
         const data = await response.json();
 
-        let tempF;
-        let tempC;
+        const tempC = Math.round(data.current.temp_c);
+        const tempF = Math.round(data.current.temp_f);
 
-        if (UNITS === "metric") {
-            tempC = Math.round(data.main.temp);
-            tempF = toF(tempC);
-        } else {
-            tempF = Math.round(data.main.temp);
-            tempC = toC(tempF);
-        }
+        timezone = data.location.tz_id;
 
-        timezoneOffset = data.timezone;
-
-        cityEl.textContent = data.name;
+        cityEl.textContent = data.location.name;
         tempEl.textContent = `${tempF}°F (${tempC}°C)`;
-        humidityEl.textContent = `💧 ${data.main.humidity}%`;
+        humidityEl.textContent = `💧 ${data.current.humidity}%`;
 
-        iconEl.src = `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`;
-        iconEl.alt = data.weather[0].description;
+        iconEl.src = "https:" + data.current.condition.icon;
+        iconEl.alt = data.current.condition.text;
 
         updateClock();
 
@@ -61,6 +44,34 @@ async function updateWeather() {
 
         console.error(err);
 
+        cityEl.textContent = "Weather Error";
+        tempEl.textContent = "--";
+        humidityEl.textContent = "--";
+
+    }
+}
+
+
+function updateClock() {
+
+    const now = new Date();
+
+    const time = now.toLocaleTimeString("en-US", {
+        timeZone: timezone,
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: !CLOCK24
+    });
+
+    clockEl.textContent = time;
+
+}
+
+
+updateWeather();
+
+setInterval(updateWeather, 600000); // 10 min välein
+setInterval(updateClock, 1000);     // kello joka sekunti
         cityEl.textContent = "Weather Error";
         tempEl.textContent = "--";
         humidityEl.textContent = "--";
