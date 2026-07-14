@@ -22,13 +22,21 @@ body{
 
     padding:10px 18px;
 
-    color:#ff3b3b;
+    color:white;
 
     font-size:26px;
 
     font-weight:700;
 
-    background:rgba(55,0,0,.45);
+    background:
+        linear-gradient(rgba(70,0,0,.55), rgba(35,0,0,.55)),
+        repeating-linear-gradient(
+            -45deg,
+            rgba(255,255,255,.03) 0px,
+            rgba(255,255,255,.03) 2px,
+            transparent 2px,
+            transparent 10px
+        );
 
     backdrop-filter:blur(8px);
 
@@ -36,8 +44,7 @@ body{
 
     white-space:nowrap;
 
-    text-shadow:
-        2px 2px 4px rgba(0,0,0,.8);
+    text-shadow:2px 2px 4px rgba(0,0,0,.8);
 
 }
 
