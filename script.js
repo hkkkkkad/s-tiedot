@@ -1,6 +1,6 @@
 // Weather Overlay v3.0 - WeatherAPI
 
-const API_KEY = "b391b385224b472083e205426261407";
+const API_KEY = "b391157fb7ec3fc7b8b710264261407";
 const CITY = "Todd Mission, Texas, US";
 const CLOCK24 = false;
 
@@ -13,9 +13,7 @@ const clockEl = document.getElementById("clock");
 let timezone = "America/Chicago";
 
 async function updateWeather() {
-
     try {
-
         const response = await fetch(
             `https://api.weatherapi.com/v1/current.json?key=${API_KEY}&q=${encodeURIComponent(CITY)}&aqi=no`
         );
@@ -25,6 +23,8 @@ async function updateWeather() {
         }
 
         const data = await response.json();
+
+        console.log(data);
 
         const tempC = Math.round(data.current.temp_c);
         const tempF = Math.round(data.current.temp_f);
@@ -41,20 +41,16 @@ async function updateWeather() {
         updateClock();
 
     } catch (err) {
-
         console.error(err);
 
         cityEl.textContent = "Weather Error";
         tempEl.textContent = "--";
         humidityEl.textContent = "--";
-
     }
-
 }
 
 
 function updateClock() {
-
     const now = new Date();
 
     clockEl.textContent = now.toLocaleTimeString("en-US", {
@@ -63,6 +59,13 @@ function updateClock() {
         minute: "2-digit",
         hour12: !CLOCK24
     });
+}
+
+
+updateWeather();
+
+setInterval(updateWeather, 600000);
+setInterval(updateClock, 1000);    });
 
 }
 
